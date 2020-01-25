@@ -1,0 +1,38 @@
+#+TITLE: Getting started on the Longan Nano
+
+* Building code
+Gotta start somewhere!
+
+** Investigating existing code
+
+Sipeed examples are using their [[https://github.com/riscv-mcu/GD32VF103_Firmware_Library.git][GD32VF103 firmware library]] on github, it looked
+at first like libopencm3, but this is clearly from this library instead. I'm
+going to see if I can build a sample and get it running with that library and
+the riscv GCC toolchain.
+
+
+* Deploying code
+
+** Compile dfu-util from source
+Unfortunately, we can't just use the OS-provided ~dfu-util~ yet. These chips are
+a little too new. Now, it turns out, [[https://git.code.sf.net/p/dfu-util/dfu-util][dfu-util mainline]] integrated the patches
+needed to handle the GD32VF chipset today (2020-01-23) -- when I last checked
+they hadn't been merged yet (yesterday.) We'll need to clone that, make sure
+build-essentials is installed, and run the steps to build ~dfu-util~, including
+making sure you have the ~libusb-dev~ package installed.
+
+Once you've built that and run it, (note, you may need to install the included
+~50-longan.rules~ file per its header line to not use ~sudo~ for it) you should
+see output like so:
+
+dfu-util 0.9
+
+Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.
+Copyright 2010-2020 Tormod Volden and Stefan Schmidt
+This program is Free Software and has ABSOLUTELY NO WARRANTY
+Please report bugs to http://sourceforge.net/p/dfu-util/tickets/
+
+dfu-util: Cannot open DFU device 0a5c:21f3
+Found DFU: [28e9:0189] ver=0100, devnum=13, cfg=1, intf=0, path="5-1", alt=0, name="@Internal Flash  /0x08000000/128*001Kg", serial="3CBJ"
+
+** Actually installing an image
