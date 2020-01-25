@@ -10,6 +10,21 @@ at first like libopencm3, but this is clearly from this library instead. I'm
 going to see if I can build a sample and get it running with that library and
 the riscv GCC toolchain.
 
+** Compiler commands
+We'll be compiling with, at a minimum, this command line:
+#+BEGIN_SRC sh
+riscv-unknown-elf-gcc -march=rv32imac -mabi=ilp32
+#+END_SRC
+We need to build for the ~rv32imac~ architecture: ~rv32i~: 32-bit RISC-V with
+all registers; ~m~: integer multiplication and division; ~a~: atomics support;
+~c~: compressed 16-bit instruction format, and we'll be using an ~ilp32~ ABI, so
+int, long, and pointers are all 32 bits.
+
+** Making the RGB LED blink
+VDDA and VSSA are attached to the LED, while so is PC13, PA1 & PA2.
+
+The short form is, PC13 controls red, PA1 controls green, and PA2 controls
+blue. I do not know if these pins support PWM off-hand.
 
 * Deploying code
 
